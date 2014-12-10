@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html ng-app="maze">
+<html>
 <head>
     <title>JS Maze</title>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
-    <script type="text/javascript", src="maze.js"></script>
 </head>
-<body ng-controller="MazeController as maze">
+<body>
     <h2>JS Maze</h2>
-    <canvas width="616" height="556" id="mazecanvas">JS Maze requires HTML5.</canvas>
+    <canvas width="210" height="210" id="mazecanvas">JS Maze requires HTML5.</canvas>
+
+    <script type="text/javascript", src="mazeGenerator.js"></script>
+    <script type="text/javascript", src="mazeRunner.js"></script>
 </body>
 </html>
