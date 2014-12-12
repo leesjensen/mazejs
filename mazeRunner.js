@@ -3,7 +3,7 @@
 
     var canvas = document.getElementById("mazecanvas");
     var context = canvas.getContext("2d");
-    var PLAYER_SIZE = 10;
+    var PLAYER_SIZE =  10;
     var maxX = canvas.width / PLAYER_SIZE;
     var maxY = canvas.height / PLAYER_SIZE;
     var currRectX = 0;
@@ -11,7 +11,7 @@
 
     var maze = jsmaze.generateMaze(maxX, maxY);
 
-    var PLAYER = -1;
+    var PLAYER = 1000;
 
 
     drawMaze();
@@ -21,11 +21,11 @@
     function getStyle(blockType) {
         switch (blockType) {
             case maze.WALL : return "#484848";
-            case maze.PATH : return "#FFFFFF";
+            case maze.PATH : return "#DEDEFF";
             case maze.BOARDER : return "#11228F";
             case maze.ENTRANCE : return "#FF0000";
             case maze.EXIT : return "#00FF00";
-            case PLAYER : return "#888888";
+            case PLAYER : return "#22FFFF";
         }
 
         return "#FFFFFF";
@@ -48,7 +48,9 @@
     }
 
     function isMoveValid(x, y) {
-        return (maze.cells[currRectX + x][currRectY + y] == maze.PATH) || (maze.cells[currRectX + x][currRectY + y] == maze.EXIT) || (maze.cells[currRectX + x][currRectY + y] == maze.ENTRANCE);
+        return ((maze.cells[currRectX + x][currRectY + y] == maze.PATH)
+         || (maze.cells[currRectX + x][currRectY + y] == maze.EXIT)
+         || (maze.cells[currRectX + x][currRectY + y] == maze.ENTRANCE));
     }
 
     function movePlayer(x, y) {

@@ -21,9 +21,12 @@
         }
 
         initializeMaze(maze);
+        fillMaze(maze, Math.floor(maze.width/2), Math.floor(maze.height/2));
+        markEntranceAndExit(maze);
 
         return maze;
     }
+
 
     function initializeMaze(maze) {
 
@@ -37,33 +40,37 @@
 
         maze.cells[1][0] = maze.WALL;
         maze.cells[maze.width - 2][maze.height - 1] = maze.WALL;
-
-        fillMaze(maze, 1, 0);
-
-        maze.cells[1][0] = maze.ENTRANCE;
-        maze.cells[maze.width - 2][maze.height - 1] = maze.EXIT;
     }
 
+
     function fillMaze(maze, x, y) {
-        var pos = {
-            'x': x,
-            'y': y
-        };
+        var pos = createPos(x, y);
 
         var pathStack = [];
         pathStack.push(pos);
         maze.cells[pos.x][pos.y] = maze.PATH;
 
         while (pathStack.length != 0) {
-            if (replaceBlock(generateRandomDirectionOperations(), maze, pos, maze.WALL, maze.PATH)) {
-                pathStack.push({
-                    'x': pos.x,
-                    'y': pos.y
-                });
+            if (replaceBlock(shuffle(directionOperations), maze, pos, maze.WALL, maze.PATH)) {
+                pathStack.push(createPos(pos.x, pos.y));
             } else {
                 pos = pathStack.pop();
             }
         }
+    }
+
+
+    function markEntranceAndExit(maze) {
+        maze.cells[1][0] = maze.ENTRANCE;
+        maze.cells[maze.width - 2][maze.height - 1] = maze.EXIT;
+    }
+
+
+    function createPos(x, y) {
+        return {
+            'x': x,
+            'y': y
+        };
     }
 
 
@@ -76,6 +83,7 @@
 
         return false;
     }
+
 
     var directionOperations = [
         function(maze, pos, match, replace) {
@@ -122,40 +130,21 @@
 
 
     function shuffle(array) {
-        var currentIndex = array.length,
-            temporaryValue, randomIndex;
 
-        while (0 !== currentIndex) {
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex -= 1;
+        if (Math.floor(Math.random() * 100) > 70) {
+            var currentIndex = array.length,
+                temporaryValue, randomIndex;
 
-            temporaryValue = array[currentIndex];
-            array[currentIndex] = array[randomIndex];
-            array[randomIndex] = temporaryValue;
-        }
+            while (0 !== currentIndex) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
 
-        return array;
-    }
-
-
-    function generateRandomDirectionOperations() {
-        var directionArray = [];
-        var directionOperationPos = randomIntFromInterval(0, 3);
-        for (var generate = 0; generate < 4; generate++) {
-            if (directionOperationPos >= 4) {
-                directionOperationPos = 0;
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
             }
-
-            directionArray.push(directionOperations[directionOperationPos]);
-
-            directionOperationPos++;
         }
-
-        return directionArray;
-    }
-
-    function randomIntFromInterval(min, max) {
-        return Math.floor(Math.random() * (max - min + 1) + min);
+        return array;
     }
 
 })(this);
