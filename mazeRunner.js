@@ -20,9 +20,9 @@
 
     function getStyle(blockType) {
         switch (blockType) {
-            case maze.WALL : return "#000000";
-            case maze.PATH : return "#883388";
-            case maze.BOARDER : return "#883300";
+            case maze.WALL : return "#484848";
+            case maze.PATH : return "#FFFFFF";
+            case maze.BOARDER : return "#11228F";
             case maze.ENTRANCE : return "#FF0000";
             case maze.EXIT : return "#00FF00";
             case PLAYER : return "#888888";
@@ -48,16 +48,20 @@
     }
 
     function isMoveValid(x, y) {
-        return (currRectX + x >= 0 && currRectY + y >= 0 && currRectX + x < maxX && currRectY + y < maxY);
+        return (maze.cells[currRectX + x][currRectY + y] == maze.PATH) || (maze.cells[currRectX + x][currRectY + y] == maze.EXIT) || (maze.cells[currRectX + x][currRectY + y] == maze.ENTRANCE);
     }
 
-    function movePlayer(x, y, blockType) {
+    function movePlayer(x, y) {
         if (isMoveValid(x, y)) {
             drawBlock(currRectX, currRectY, maze.cells[currRectX][currRectY]);
 
             currRectX += x;
             currRectY += y;
             drawBlock(currRectX, currRectY, PLAYER);
+
+            if (maze.cells[currRectX][currRectY] == maze.EXIT) {
+                alert("You made it!");
+            }
         }
     }
 
