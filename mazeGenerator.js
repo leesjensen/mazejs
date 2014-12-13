@@ -7,19 +7,7 @@
         global.jsmaze = jsmaze;
     }
 
-    jsmaze.generateMaze = function(mazeWidth, mazeHeight) {
-        var maze = {
-            BOARDER: 99,
-            WALL: 0,
-            EXIT: 1,
-            ENTRANCE: 2,
-            PATH: 3,
-
-            cells: [],
-            width: (typeof mazeWidth !== 'undefined' ? mazeWidth : 200),
-            height: (typeof mazeHeight !== 'undefined' ? mazeHeight : 200)
-        }
-
+    jsmaze.generateMaze = function(maze) {
         initializeMaze(maze);
         fillMaze(maze, Math.floor(maze.width/2), Math.floor(maze.height/2));
         markEntranceAndExit(maze);
@@ -91,40 +79,32 @@
                 maze.cells[pos.x + 1][pos.y] = replace;
                 maze.cells[pos.x + 2][pos.y] = replace;
                 pos.x += 2;
-                console.log("+ right " + match);
                 return true;
             }
-            console.log("- right " + match);
         },
         function(maze, pos, match, replace) {
             if (pos.x - 2 >= 0 && maze.cells[pos.x - 1][pos.y] == match && maze.cells[pos.x - 2][pos.y] == match) {
                 maze.cells[pos.x - 1][pos.y] = replace;
                 maze.cells[pos.x - 2][pos.y] = replace;
                 pos.x -= 2;
-                console.log("+ left " + match);
                 return true;
             }
-            console.log("- left " + match);
         },
         function(maze, pos, match, replace) {
             if (pos.y + 2 < maze.height && maze.cells[pos.x][pos.y + 1] == match && maze.cells[pos.x][pos.y + 2] == match) {
                 maze.cells[pos.x][pos.y + 1] = replace;
                 maze.cells[pos.x][pos.y + 2] = replace;
                 pos.y += 2;
-                console.log("+ down " + match);
                 return true;
             }
-            console.log("- down " + match);
         },
         function(maze, pos, match, replace) {
             if (pos.y - 2 >= 0 && maze.cells[pos.x][pos.y - 1] == match && maze.cells[pos.x][pos.y - 2] == match) {
                 maze.cells[pos.x][pos.y - 1] = replace;
                 maze.cells[pos.x][pos.y - 2] = replace;
                 pos.y -= 2;
-                console.log("+ up " + match);
                 return true;
             }
-            console.log("- up " + match);
         }
     ];
 

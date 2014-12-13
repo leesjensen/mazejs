@@ -1,67 +1,49 @@
 (function() {
     "use strict";
 
+    var playerSize = 10;
+
     var canvas = document.getElementById("mazecanvas");
-    var context = canvas.getContext("2d");
-    var PLAYER_SIZE =  10;
-    var maxX = canvas.width / PLAYER_SIZE;
-    var maxY = canvas.height / PLAYER_SIZE;
-    var currRectX = 0;
-    var currRectY = 0;
+    var maze = {
+        BOARDER: 1,
+        WALL: 2,
+        EXIT: 4,
+        ENTRANCE: 8,
+        PATH: 16,
+        TRACE: 512,
+        PLAYER: 1024,
+        
+        cells: [],
 
-    var maze = jsmaze.generateMaze(maxX, maxY);
+        canvasContext: canvas.getContext("2d"),
 
-    var PLAYER = 1000;
+        PLAYER_SIZE : playerSize,
+        width: canvas.width / playerSize,
+        height: canvas.height / playerSize
+    }
 
+    var currX = 0;
+    var currY = 0;
 
-    drawMaze();
+    jsmaze.generateMaze(maze);
+    jsmaze.drawMaze(maze);
+
     movePlayer(1, 0);
     window.addEventListener("keydown", handleKeyPress, true);
 
-    function getStyle(blockType) {
-        switch (blockType) {
-            case maze.WALL : return "#484848";
-            case maze.PATH : return "#DEDEFF";
-            case maze.BOARDER : return "#11228F";
-            case maze.ENTRANCE : return "#FF0000";
-            case maze.EXIT : return "#00FF00";
-            case PLAYER : return "#22FFFF";
-        }
-
-        return "#FFFFFF";
-    }
-
-    function drawMaze() {
-        for (var column = 0; column < maze.width; column++) {
-            for (var row = 0; row < maze.height; row++) {
-                drawBlock(column, row, maze.cells[column][row]);
-            }
-        }
-    }
-
-    function drawBlock(x, y, blockType) {
-        context.beginPath();
-        context.rect(x * PLAYER_SIZE, y * PLAYER_SIZE, PLAYER_SIZE, PLAYER_SIZE);
-        context.closePath();
-        context.fillStyle = getStyle(blockType);
-        context.fill();
-    }
-
     function isMoveValid(x, y) {
-        return ((maze.cells[currRectX + x][currRectY + y] == maze.PATH)
-         || (maze.cells[currRectX + x][currRectY + y] == maze.EXIT)
-         || (maze.cells[currRectX + x][currRectY + y] == maze.ENTRANCE));
+        return (maze.cells[currX + x][currY + y] & (maze.PATH | maze.EXIT | maze.ENTRANCE));
     }
 
     function movePlayer(x, y) {
         if (isMoveValid(x, y)) {
-            drawBlock(currRectX, currRectY, maze.cells[currRectX][currRectY]);
+            jsmaze.drawBlock(maze, currX, currY, maze.cells[currX][currY]);
 
-            currRectX += x;
-            currRectY += y;
-            drawBlock(currRectX, currRectY, PLAYER);
+            currX += x;
+            currY += y;
+            jsmaze.drawBlock(maze, currX, currY, maze.PLAYER);
 
-            if (maze.cells[currRectX][currRectY] == maze.EXIT) {
+            if (maze.cells[currX][currY] == maze.EXIT) {
                 alert("You made it!");
             }
         }
@@ -86,8 +68,10 @@
             case 83: // S key
                 newY = 1;
                 break;
-            case 39: // arrow right key
             case 68: // D key
+                jsmaze.solveMaze(maze);
+                return;
+            case 39: // arrow right key
                 newX = 1;
                 break;
         }
