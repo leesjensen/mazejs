@@ -1,9 +1,9 @@
 (function() {
     "use strict";
 
-    var playerSize = 10;
-
+    var playerSize = 5;
     var canvas = document.getElementById("mazecanvas");
+
     var maze = {
         BOARDER: 1,
         WALL: 2,

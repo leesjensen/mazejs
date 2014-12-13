@@ -23,11 +23,9 @@
 
             pos = pathStack.pop();
             if (pos == undefined) {
-                alert("Couldn't find the exit");
-                return;
+                return false;
             } else if (maze.cells[pos.x][pos.y] == maze.EXIT) {
-                alert("Found the exit");
-                return;
+                return true;
             }
         }
     }
@@ -48,22 +46,22 @@
 
     var moveOperations = [
         function(maze, pos) {
-            if (maze.cells[pos.x + 1][pos.y] == maze.PATH) {
+            if (maze.cells[pos.x + 1][pos.y] & (maze.PATH | maze.EXIT)) {
                 return createPos(pos.x + 1, pos.y);
             }
         },
         function(maze, pos) {
-            if (maze.cells[pos.x - 1][pos.y] == maze.PATH) {
-                return createPos(pos.x - 1, pos.y);
-            }
-        },
-        function(maze, pos) {
-            if (maze.cells[pos.x][pos.y + 1] == maze.PATH) {
+            if (maze.cells[pos.x][pos.y + 1] & (maze.PATH | maze.EXIT)) {
                 return createPos(pos.x, pos.y + 1);
             }
         },
         function(maze, pos) {
-            if (maze.cells[pos.x][pos.y - 1] == maze.PATH) {
+            if (maze.cells[pos.x - 1][pos.y] & (maze.PATH | maze.EXIT)) {
+                return createPos(pos.x - 1, pos.y);
+            }
+        },
+        function(maze, pos) {
+            if (maze.cells[pos.x][pos.y - 1] & (maze.PATH | maze.EXIT)) {
                 return createPos(pos.x, pos.y - 1);
             }
         }
