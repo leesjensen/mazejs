@@ -1,7 +1,7 @@
 Maze.js
 ======
 
-Javascript implementation of a maze generator, solver, and interactive play. This Maze.js only uses pure javascript (no additional libraries). The purpose of the code is to provide a simple environment where you can learn to write javascript by implementing a maze generator or maze solver. You can then interactively play the maze or compare the difficulty of your generator or efficency of your solver against other implementations.
+Javascript implementation of a maze generator, solver, and interactive play. This Maze.js uses pure javascript (no additional libraries). The purpose of the code is to provide a simple environment where you can learn to write javascript by implementing a maze generator or maze solver. You can then interactively play the maze or compare the difficulty of your generator or efficency of your solver against other implementations.
 
 ## To Do
 * Add timers that are displayed
