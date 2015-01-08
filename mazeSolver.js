@@ -1,6 +1,8 @@
 (function(global) {
     "use strict";
 
+    var this = 2;
+    
     var jsmaze = global.jsmaze;
     if (!jsmaze) {
         jsmaze = {};
