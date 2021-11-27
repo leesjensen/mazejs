@@ -7,6 +7,11 @@
         global.jsmaze = jsmaze;
     }
 
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     jsmaze.solveMaze = async function(maze) {
         var pos = createPos(1, 0);
 

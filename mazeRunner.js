@@ -49,7 +49,6 @@
         }
     }
 
-
     function handleKeyPress(e) {
         var newX = 0;
         var newY = 0;
