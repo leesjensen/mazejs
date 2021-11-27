@@ -1,0 +1,16 @@
+version: 2.1
+
+orbs:
+  aws-s3: circleci/aws-s3@2.0
+
+jobs:
+  build:
+    docker:
+      - image: 'cimg/python:3.6'
+    resource_class: small
+    steps:
+      - checkout
+      - aws-s3/copy:
+          from: .
+          to: s3://leesjensen.com/public/mazejs
+          arguments: --recursive
