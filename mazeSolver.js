@@ -1,26 +1,30 @@
 (function(global) {
     "use strict";
 
-    var this = 2;
-    
     var jsmaze = global.jsmaze;
     if (!jsmaze) {
         jsmaze = {};
         global.jsmaze = jsmaze;
     }
 
-    jsmaze.solveMaze = function(maze) {
+    jsmaze.solveMaze = async function(maze) {
         var pos = createPos(1, 0);
 
         var pathStack = [];
         pathStack.push(pos);
 
+        var drawCount = 0;
         while (true) {
             maze.cells[pos.x][pos.y] = maze.TRACE;
             jsmaze.drawBlock(maze, pos.x, pos.y, maze.TRACE);
             var moves = getMoves(moveOperations, maze, pos);
             while (moves.length > 0) {
                 pathStack.push(moves.pop());
+            }
+
+            drawCount++;
+            if (drawCount % 10 === 0) {
+                await sleep(10);
             }
 
             pos = pathStack.pop();

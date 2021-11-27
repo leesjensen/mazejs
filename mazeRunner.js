@@ -53,28 +53,28 @@
     function handleKeyPress(e) {
         var newX = 0;
         var newY = 0;
-        var movingAllowed;
         e = e || window.event;
         switch (e.keyCode) {
             case 38: // arrow up key
-            case 87: // W key
                 newY = -1;
                 break;
             case 37: // arrow left key
-            case 65: // A key
                 newX = -1;
                 break;
             case 40: // arrow down key
-            case 83: // S key
                 newY = 1;
                 break;
-            case 68: // D key
-                jsmaze.solveMaze(maze);
-                return;
             case 39: // arrow right key
                 newX = 1;
                 break;
-        }
+            case 82: // R key - Restart
+                jsmaze.generateMaze(maze);
+                jsmaze.drawMaze(maze);
+                return;
+            case 83: // S key - Solve                
+            jsmaze.solveMaze(maze);
+            return;
+    }
 
         if (newX != 0 || newY != 0) {
             movePlayer(newX, newY);
